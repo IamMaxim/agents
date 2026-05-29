@@ -1,0 +1,34 @@
+{
+  "context": {
+    "fileName": "AGENTS.md"
+  },
+  "disableAllHooks": false,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "(Bash|Shell|run_shell_command)",
+        "hooks": [
+          {
+            "type": "command",
+            "name": "qsp-block-dangerous-bash",
+            "command": "/ABSOLUTE/PATH/TO/qwen-superpowers/hooks/block-dangerous-bash.sh",
+            "timeout": 10000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "(Edit|Write|WriteFile|write_file|replace|edit)",
+        "hooks": [
+          {
+            "type": "command",
+            "name": "qsp-run-checks-after-edit",
+            "command": "/ABSOLUTE/PATH/TO/qwen-superpowers/hooks/run-checks-after-edit.sh",
+            "timeout": 130000
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -7,7 +7,7 @@ open-weight LLMs in agentic coding harnesses.
 ```
 agents/
 └── skills/
-    └── qwen-superpowers/   Superpowers methodology adapted for Qwen3.5-397B-A17B (Qwen Code)
+    └── qwen-superpowers/   Superpowers methodology adapted for Qwen3.5-397B-A17B (multi-harness)
 ```
 More packages — additional skill packs, subagent definitions, and so on — will live alongside.
 
@@ -15,9 +15,10 @@ More packages — additional skill packs, subagent definitions, and so on — wi
 
 ### [skills/qwen-superpowers](skills/qwen-superpowers/)
 An adaptation of [obra/superpowers](https://github.com/obra/superpowers) for **Qwen3.5-397B-A17B**
-running under **Qwen Code**: always-on discipline (`QWEN.md`), slash-command entry points, and
-enforcement hooks that contain a weaker model's mistakes (block destructive shell, run project
-checks after every edit). See its [README](skills/qwen-superpowers/README.md).
+across multiple harnesses (Qwen Code, Gemini CLI, Claude Code, or any `AGENTS.md`-aware tool):
+always-on discipline (`AGENTS.md`), slash-command entry points, and enforcement hooks that contain a
+weaker model's mistakes (block destructive shell, run project checks after every edit). See its
+[README](skills/qwen-superpowers/README.md).
 
 ## License
 [MIT](LICENSE). Individual packages may carry their own attribution — e.g.

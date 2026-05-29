@@ -16,15 +16,17 @@ your defaults. Explicit user instructions — here or in chat — always win.
 - One tool call at a time when its result affects the next step. Read the result before acting.
 - Confirm a path exists before editing it; confirm a symbol exists before calling it.
 - Use the smallest, most specific command. No speculative wide edits.
-- Destructive shell (`rm -rf`, force-push, `reset --hard`, `clean -fd`, …) is blocked by a hook.
-  Don't route around it — if you think you need it, stop and ask.
+- Destructive shell (`rm -rf`, force-push, `reset --hard`, `clean -fd`, …) is blocked by a safety
+  hook where one is configured. Don't route around it — if you think you need it, stop and ask.
 
 ## Output style
 - No preamble, no flattery, no narrating your reasoning ("Now I will…"). Do the work.
 - Answer exactly what was asked. Show diffs and command output, not prose about them.
 - Be terse. A long explanation usually means you're unsure — verify instead of elaborating.
 
-## Which procedure to use (invoke the slash command)
+## Which procedure to use
+Invoke the slash command if your harness supports one; otherwise read the matching
+`skills/<name>.md` and follow it.
 - New feature / behavior / component → `/brainstorm`, then `/write-plan`.
 - Implementing a planned change → `/execute-plan` (one step at a time).
 - Any feature or bugfix in code → `/tdd` (write the failing test first).

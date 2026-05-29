@@ -5,11 +5,11 @@ is a short, imperative procedure — no flowcharts, no ALL-CAPS pressure, no rel
 chain-of-thought.
 
 ## How these are used
-- The non-negotiable parts live in [`../QWEN.md`](../QWEN.md) (loaded every turn).
+- The non-negotiable parts live in [`../AGENTS.md`](../AGENTS.md) (loaded every turn).
 - The full procedures here are the canonical, editable source.
-- Most are invoked through slash commands in [`../commands/`](../commands/), which carry a
-  condensed copy of the steps inline so they work even if file-injection paths differ across
-  Qwen Code versions.
+- Most are invoked through slash commands under [`../harnesses/`](../harnesses/) (TOML for the
+  qwen-family, Markdown for Claude Code), which carry a condensed copy of the steps inline so they
+  work across harnesses and versions.
 
 ## Index
 | Skill | Command | Use when |

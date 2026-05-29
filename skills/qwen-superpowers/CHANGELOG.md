@@ -3,6 +3,22 @@
 All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.2.0] - 2026-05-29
+
+Generalized to multiple harnesses.
+
+### Changed
+- `QWEN.md` → **`AGENTS.md`** (the cross-harness standard); discipline content made harness-neutral.
+- Restructured harness-specific delivery under `harnesses/<profile>/`; the old top-level `commands/`
+  and `settings/` are gone. Shared `hooks/` now also holds `checks.example.sh`.
+- `install.sh` rewritten: interactive, multi-harness, remembers choices in
+  `~/.config/qwen-superpowers/config`; supports `--yes` / `--print` / `QSP_*` env overrides.
+
+### Added
+- Profiles: **qwen-family** (Qwen Code / Gemini CLI / forks, TOML commands, configurable dir),
+  **claude-code** (Markdown commands, `~/.claude`), **generic** (`AGENTS.md` + `skills/` only).
+- Per-harness `settings.sample.json` and READMEs under `harnesses/`.
+
 ## [0.1.0] - 2026-05-29
 
 Initial release. An adaptation of the [Superpowers](https://github.com/obra/superpowers)

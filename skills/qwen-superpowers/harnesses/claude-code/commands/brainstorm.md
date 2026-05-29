@@ -1,0 +1,16 @@
+---
+description: Brainstorm an idea into a small, approved design before any code.
+argument-hint: <idea>
+---
+
+Apply the Brainstorming procedure (canonical: skills/brainstorming.md). Do NOT write code,
+scaffold, or edit files until the user approves a design — even for simple tasks.
+
+1. Restate the goal in one sentence; confirm it.
+2. Check the current code: what exists, what patterns and constraints apply.
+3. Ask questions ONE at a time (prefer multiple-choice). Stop when you can describe the solution.
+4. Propose 2–3 approaches with one-line trade-offs; recommend one and say why.
+5. Present a short design (what changes, which files, how it's tested). Get explicit approval.
+6. Hand off to /write-plan (non-trivial) or /tdd (small).
+
+Idea: $ARGUMENTS

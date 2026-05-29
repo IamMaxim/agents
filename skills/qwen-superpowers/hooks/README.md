@@ -1,8 +1,9 @@
 # Hooks — the enforcement layer
 
 Two command hooks turn "please be careful" and "please verify" into things the model can't skip.
-Wire them in your project's `.qwen/settings.json` — see [`../settings/settings.json`](../settings/settings.json)
-for a ready sample (replace the placeholder paths with this repo's absolute path).
+Wire them into your harness's `settings.json` — per-harness samples live in
+[`../harnesses/`](../harnesses/) (`qwen-family/settings.sample.json`, `claude-code/settings.sample.json`),
+and `install.sh` prints ready snippets with this pack's real paths filled in.
 
 **Dependency:** `jq` must be on PATH. Both hooks fail *open* (allow / no-op) if it's missing, so a
 broken environment never wedges your session.
@@ -24,21 +25,21 @@ output back into the conversation, so the model fixes the breakage instead of mo
 
 Configure the check command (first match wins):
 1. `export QWEN_SP_CHECK="ruff check . && pytest tests/unit -q"`, or
-2. an executable `./.qwen/checks.sh` (copy [`../settings/checks.example.sh`](../settings/checks.example.sh)).
+2. an executable `./.qwen/checks.sh` (copy [`./checks.example.sh`](checks.example.sh)).
 
 No check configured → the hook is a no-op. Keep checks fast (lint, typecheck, targeted unit
 tests); put full suites behind `/verify`. Tuning: `QWEN_SP_CHECK_TIMEOUT` (seconds, default 120),
 `QWEN_SP_CHECK_TAIL` (lines fed back, default 40).
 
 ## Matchers
-The sample uses broad regex matchers so it works across Qwen Code tool-name variants:
-`(Bash|Shell|run_shell_command)` and `(Edit|Write|WriteFile|write_file|replace|edit)`. If your
-version names tools differently, run Qwen Code with `--debug` to see the real names and adjust.
+Matchers are per harness. The qwen-family sample uses broad regexes for tool-name variants
+(`(Bash|Shell|run_shell_command)`, `(Edit|Write|WriteFile|write_file|replace|edit)`); the
+claude-code sample uses `Bash` and `Edit|Write|MultiEdit`. If your version names tools differently,
+run it with `--debug` to see the real names and adjust.
 
 ## Containment beyond hooks
 - **Approval mode:** start with `--approval-mode default` (prompt on edits/shell) while you build
   trust; move to `auto-edit` once the hooks earn it. Avoid `yolo` outside a sandbox.
-- **Sandbox:** Qwen Code can run tools inside a sandbox (Docker image `qwen-code-sandbox`, or a
-  project `.qwen/sandbox.Dockerfile`; macOS Seatbelt is also supported). In a sandbox, even a
-  command the deny-list misses can't touch your host. That's the real containment; the hook is the
-  cheap first line.
+- **Sandbox:** Qwen Code and Claude Code can both run tools inside a sandbox (Docker, or macOS
+  Seatbelt). In a sandbox, even a command the deny-list misses can't touch your host. That's the
+  real containment; the hook is the cheap first line.

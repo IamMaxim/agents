@@ -9,9 +9,9 @@ For agentic coding, bias toward determinism:
   repeatable edits, not creativity.
 - top_p ~0.9, top_k 20 are reasonable.
 - Nudge **presence_penalty / repetition_penalty up** and keep **min_p low** to curb Qwen's
-  tendency to over-explain (community-reported; it matches the no-preamble rule in `QWEN.md`).
+  tendency to over-explain (community-reported; it matches the no-preamble rule in `AGENTS.md`).
 
-Set these wherever Qwen Code exposes generation params, or ask your gateway to accept the
+Set these wherever your harness exposes generation params, or ask your gateway to accept the
 standard OpenAI sampling fields.
 
 ## Thinking mode
@@ -23,7 +23,7 @@ For an agentic loop:
   faster tool turns. The skills supply the structure that thinking would otherwise add.
 - **On** for reasoning-heavy moments (`/brainstorm`, `/debug`, planning a tricky change).
 
-Can't toggle it client-side? Live with the default and rely on the `QWEN.md` discipline + hooks;
+Can't toggle it client-side? Live with the default and rely on the `AGENTS.md` discipline + hooks;
 just expect thinking-on to be slower and chattier per step.
 
 ## Context hygiene (fully under your control)
