@@ -25,16 +25,16 @@ your defaults. Explicit user instructions — here or in chat — always win.
 - Be terse. A long explanation usually means you're unsure — verify instead of elaborating.
 
 ## Which procedure to use
-Invoke the slash command if your harness supports one; otherwise read the matching
-`skills/<name>.md` and follow it.
-- New feature / behavior / component → `/brainstorm`, then `/write-plan`.
-- Implementing a planned change → `/execute-plan` (one step at a time).
-- Any feature or bugfix in code → `/tdd` (write the failing test first).
-- A bug, failure, or anything surprising → `/debug` (reproduce before fixing).
-- Before claiming completion → `/verify`.
-- Preparing a change for review → `/review`.
+Invoke the skill by name (`/<skill>` on a harness with a skills system, e.g. Qwen Code); otherwise
+read the matching `skills/<name>/SKILL.md` and follow it.
+- New feature / behavior / component → `/brainstorming`, then `/writing-plans`.
+- Implementing a planned change → `/executing-plans` (one step at a time).
+- Any feature or bugfix in code → `/test-driven-development` (write the failing test first).
+- A bug, failure, or anything surprising → `/systematic-debugging` (reproduce before fixing).
+- Before claiming completion → `/verification-before-completion`.
+- Preparing a change for review → `/requesting-code-review`.
 
-## Other procedures (read the file when the moment comes)
-- Isolating risky work → `skills/using-git-worktrees.md`
-- Wrapping up a finished branch → `skills/finishing-a-development-branch.md`
-- Responding to review feedback → `skills/receiving-code-review.md`
+## Other procedures (invoke by name, or read the file when the moment comes)
+- Isolating risky work → `/using-git-worktrees` (`skills/using-git-worktrees/SKILL.md`)
+- Wrapping up a finished branch → `/finishing-a-development-branch` (`skills/finishing-a-development-branch/SKILL.md`)
+- Responding to review feedback → `/receiving-code-review` (`skills/receiving-code-review/SKILL.md`)
