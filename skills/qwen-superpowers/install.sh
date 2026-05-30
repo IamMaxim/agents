@@ -2,7 +2,7 @@
 # qwen-superpowers installer — interactive, multi-harness, and it remembers your choices.
 #
 # Profiles:
-#   qwen-family : TOML slash commands + hooks for Qwen Code / Gemini CLI / forks (dir configurable)
+#   qwen-family : native Agent Skills + hooks for Qwen Code / Gemini CLI / forks (dir configurable)
 #   claude-code : Markdown slash commands + hooks for Claude Code
 #   generic     : AGENTS.md + skills/ only, for harnesses without commands or hooks
 #
@@ -78,6 +78,26 @@ link_into() {  # link_into <srcdir> <glob> <destdir>
   mkdir -p "$dest"
   for f in "$src"/$glob; do [ -e "$f" ] || continue; safe_link "$f" "$dest/$(basename "$f")"; done
 }
+link_skills() {  # link_skills <srcdir> <destdir> ; symlinks each skill subdir (with SKILL.md) into dest
+  local src="$1" dest="$2" d name
+  mkdir -p "$dest"
+  for d in "$src"/*/; do
+    [ -f "$d/SKILL.md" ] || continue
+    name="$(basename "$d")"
+    safe_link "${d%/}" "$dest/$name"
+  done
+}
+prune_stale_command_links() {  # prune_stale_command_links <cmddir> <repo_cmd_dir> ; drop our own now-dangling symlinks
+  local cmddir="$1" repocmd="$2" l tgt
+  [ -d "$cmddir" ] || return 0
+  for l in "$cmddir"/*; do
+    [ -L "$l" ] || continue
+    tgt="$(readlink "$l")"
+    case "$tgt" in
+      "$repocmd"/*) rm -f "$l"; note "removed stale command link $(basename "$l")" ;;
+    esac
+  done
+}
 hooks_snippet() {  # hooks_snippet <bash_matcher> <edit_matcher> <pre_timeout> <post_timeout>
   cat <<JSON
   "hooks": {
@@ -124,8 +144,9 @@ note "hooks marked executable"
 
 SNIPPETS=""
 if [ "$QSP_QWEN_ENABLE" = yes ]; then
-  link_into "$REPO_DIR/harnesses/qwen-family/commands" "*.toml" "$QSP_QWEN_DIR/commands"
-  note "linked TOML commands -> $QSP_QWEN_DIR/commands"
+  link_skills "$REPO_DIR/skills" "$QSP_QWEN_DIR/skills"
+  note "linked native Agent Skills -> $QSP_QWEN_DIR/skills"
+  prune_stale_command_links "$QSP_QWEN_DIR/commands" "$REPO_DIR/harnesses/qwen-family/commands"
   SNIPPETS="$SNIPPETS
 --- qwen-family: merge into $QSP_QWEN_DIR/settings.json (timeouts in ms; also set context.fileName to \"AGENTS.md\") ---
 $(hooks_snippet '(Bash|Shell|run_shell_command)' '(Edit|Write|WriteFile|write_file|replace|edit)' 10000 130000)
