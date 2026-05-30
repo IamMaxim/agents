@@ -8,6 +8,9 @@
 /tmp/
 scratch/
 
+# Superpowers working artifacts (local specs/plans — never committed)
+docs/superpowers/
+
 # Local, machine-specific overrides
 **/*.local.json
 **/sandbox.Dockerfile.local
