@@ -3,6 +3,27 @@
 All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.3.0] - 2026-05-30
+
+Migrated qwen-family delivery from deprecated TOML slash commands to Qwen Code's native Agent Skills.
+
+### Changed
+- **qwen-family now ships native Agent Skills** (`<base>/skills/<name>/SKILL.md`) instead of TOML
+  slash commands. Each skill is model-invoked (auto, from its description) *and* user-invokable as
+  `/<name>` or via `/skills`, using canonical names (e.g. `/brainstorming`, `/test-driven-development`).
+- Restructured `skills/<name>.md` → `skills/<name>/SKILL.md` (the obra/superpowers and Qwen-native
+  layout); updated cross-references and docs.
+- `install.sh` (qwen-family) symlinks each skill directory into `<base>/skills/` and prunes the
+  stale TOML command symlinks it previously created. Hooks and AGENTS.md wiring unchanged.
+
+### Removed
+- `harnesses/qwen-family/commands/*.toml` — superseded by native skills. (claude-code Markdown
+  commands are unchanged.)
+
+### Notes
+- The earlier DESIGN.md premise that no non-Claude harness had skill auto-invocation no longer holds
+  for Qwen Code; corrected in docs.
+
 ## [0.2.0] - 2026-05-29
 
 Generalized to multiple harnesses.

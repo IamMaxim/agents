@@ -3,7 +3,7 @@ description: Debug a failure systematically — reproduce first, one hypothesis 
 argument-hint: <symptom>
 ---
 
-Apply the Systematic Debugging procedure (canonical: skills/systematic-debugging.md).
+Apply the Systematic Debugging procedure (canonical: skills/systematic-debugging/SKILL.md).
 
 1. Reproduce: a single command/action that fails reliably (paste output).
 2. Read the real error — message, stack, line. Don't guess from the symptom.

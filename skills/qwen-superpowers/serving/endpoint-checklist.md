@@ -36,4 +36,4 @@ confirm each item.
       is exactly why this pack leans on client-side enforcement.
 
 If all of these are correct and the model still struggles, you're at a capability ceiling, not a
-config bug — lean harder on small steps, `/tdd`, and the hooks.
+config bug — lean harder on small steps, `/test-driven-development`, and the hooks.

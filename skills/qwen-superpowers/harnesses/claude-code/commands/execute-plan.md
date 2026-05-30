@@ -3,7 +3,7 @@ description: Execute a written plan one step at a time, checking after each.
 argument-hint: <plan path or text>
 ---
 
-Apply the Executing Plans procedure (canonical: skills/executing-plans.md).
+Apply the Executing Plans procedure (canonical: skills/executing-plans/SKILL.md).
 
 1. Restate the NEXT single step. Do only that step.
 2. Make the change, limited to the one file/concern it names.

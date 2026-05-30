@@ -28,7 +28,7 @@ Configure the check command (first match wins):
 2. an executable `./.qwen/checks.sh` (copy [`./checks.example.sh`](checks.example.sh)).
 
 No check configured → the hook is a no-op. Keep checks fast (lint, typecheck, targeted unit
-tests); put full suites behind `/verify`. Tuning: `QWEN_SP_CHECK_TIMEOUT` (seconds, default 120),
+tests); put full suites behind `/verification-before-completion`. Tuning: `QWEN_SP_CHECK_TIMEOUT` (seconds, default 120),
 `QWEN_SP_CHECK_TAIL` (lines fed back, default 40).
 
 ## Matchers

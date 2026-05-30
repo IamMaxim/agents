@@ -20,8 +20,9 @@ mistakes cheap and unhideable, then on guiding the model.
 1. **Enforcement** (`hooks/`) — block destructive shell; run checks after edits and feed failures
    back. Requires no trust in the model.
 2. **Always-on discipline** (`AGENTS.md`) — the non-negotiables, every turn. Low trust.
-3. **On-demand procedure** (harness commands + `skills/`) — TDD, debugging, planning, review;
-   invoked explicitly, because Qwen won't self-select skills reliably.
+3. **On-demand procedure** (`skills/`, delivered as native skills where supported) — TDD, debugging,
+   planning, review; invokable explicitly as `/<name>` (the reliable path) and auto-invokable by the
+   model where the harness supports it.
 
 ## Why not port the skills verbatim?
 Model facts that break the originals (full list + sources in [`model-notes.md`](model-notes.md)):
@@ -33,17 +34,22 @@ Model facts that break the originals (full list + sources in [`model-notes.md`](
 - fp8 serving can degrade structured output → enforcement matters more.
 
 ## Mapping Superpowers → a harness
-No mainstream non-Claude harness has Claude's Skill tool / auto-invocation. We map:
-- Skill auto-invocation → explicit slash commands + always-on `AGENTS.md` pointers.
+Claude Code has a Skill tool with auto-invocation. Among non-Claude harnesses this is now uneven:
+Qwen Code (v0.15.7+) added a native Agent Skills system (model-invoked *and* user-invokable as
+`/<name>`); Gemini CLI and other forks may not. We map:
+- Skill auto-invocation → on Qwen Code, **native Agent Skills** (the `skills/` files installed to
+  `~/.qwen/skills/`), auto-invokable by the model and runnable by the user as `/<name>`; on harnesses
+  without a skill system, always-on `AGENTS.md` pointers plus explicit invocation.
 - "Please verify / be careful" → `PreToolUse` + `PostToolUse` hooks (deterministic).
-- Progressive disclosure → commands carry condensed procedures inline (robust across harnesses and
-  versions); `skills/` holds the fuller canonical text.
+- Progressive disclosure → `AGENTS.md` carries the always-on essentials; `skills/<name>/SKILL.md`
+  holds the fuller canonical procedure, loaded on invocation.
 
 ## Multi-harness delivery
 The methodology is harness-agnostic; only delivery differs, so the harness-specific parts live under
 `harnesses/<profile>/` and the universal parts (`AGENTS.md`, `skills/`, `hooks/`) are shared.
-- **qwen-family** (Qwen Code, Gemini CLI, forks) — TOML commands, Gemini-fork settings schema,
-  configurable base dir (`~/.qwen`, `~/.gemini`, …). `{{args}}` placeholder.
+- **qwen-family** (Qwen Code, Gemini CLI, forks) — native Agent Skills (`<base>/skills/<name>/SKILL.md`),
+  Gemini-fork settings schema, configurable base dir (`~/.qwen`, `~/.gemini`, …). Skills require a
+  harness with the Agent Skills system (Qwen Code); forks without it still get `AGENTS.md` + hooks.
 - **claude-code** — Markdown commands, Claude settings schema, `~/.claude`. `$ARGUMENTS` placeholder.
 - **generic** — `AGENTS.md` + `skills/` only, for harnesses without commands/hooks.
 
@@ -68,10 +74,10 @@ using-git-worktrees, finishing-a-development-branch.
   deferred to a later version.
 
 ## To revisit after real-world testing
-- Command arg placeholders (`{{args}}` for qwen-family, `$ARGUMENTS` for claude-code) and tool-name
-  matchers are best-effort; confirm against the actual harness versions via `--debug` and adjust.
-- Commands carry condensed procedures inline; once file-injection paths are confirmed on a harness,
-  they could instead inject the canonical `skills/<name>.md`.
+- Tool-name matchers in the hook settings are best-effort; confirm against the actual harness
+  versions via `--debug` and adjust.
+- claude-code still uses Markdown slash commands (`$ARGUMENTS`); it could move to Claude Code's
+  native skills later for parity with qwen-family.
 - Post-edit checks run after every edit; if too slow, scope the matcher to specific paths.
 
 ## Credits

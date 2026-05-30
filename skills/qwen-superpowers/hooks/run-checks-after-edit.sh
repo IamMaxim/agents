@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # PostToolUse hook for qwen-superpowers: after a file edit, run the project's FAST checks and,
 # if they fail, feed the output back so the model fixes it instead of proceeding. Heavy/full
-# suites belong in /verify, not here.
+# suites belong in /verification-before-completion, not here.
 #
 # Check command resolution (first match wins):
 #   1) $QWEN_SP_CHECK        a shell command string

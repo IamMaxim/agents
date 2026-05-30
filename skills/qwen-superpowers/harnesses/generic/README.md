@@ -12,7 +12,7 @@ a directory you choose.
 1. **AGENTS.md** — most modern agents read `AGENTS.md` from the working directory; copy or symlink
    this pack's `AGENTS.md` into your project root (Codex, Cursor, and others honor it).
 2. **Skills** — keep `skills/` reachable and point to the right one in-prompt when you need a
-   procedure (e.g. "follow `skills/test-driven-development.md`"). Without slash commands, you
+   procedure (e.g. "follow `skills/test-driven-development/SKILL.md`"). Without slash commands, you
    trigger them by asking.
 3. **Safety** — no hook enforcement here, so lean harder on running in a sandbox and on VCS
-   checkpoints, plus the `/verify`-style discipline (run checks, paste output) from `AGENTS.md`.
+   checkpoints, plus the verify-before-claiming discipline (run checks, paste output) from `AGENTS.md`.

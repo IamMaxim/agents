@@ -19,9 +19,9 @@ Qwen3.5 thinks by default and has no `/think` soft switch; toggle per call with
 `chat_template_kwargs: {enable_thinking: <bool>}` if your gateway passes it through.
 
 For an agentic loop:
-- **Off** for routine execution (`/tdd`, `/execute-plan`) — fewer tokens, less context bloat,
+- **Off** for routine execution (`/test-driven-development`, `/executing-plans`) — fewer tokens, less context bloat,
   faster tool turns. The skills supply the structure that thinking would otherwise add.
-- **On** for reasoning-heavy moments (`/brainstorm`, `/debug`, planning a tricky change).
+- **On** for reasoning-heavy moments (`/brainstorming`, `/systematic-debugging`, planning a tricky change).
 
 Can't toggle it client-side? Live with the default and rely on the `AGENTS.md` discipline + hooks;
 just expect thinking-on to be slower and chattier per step.

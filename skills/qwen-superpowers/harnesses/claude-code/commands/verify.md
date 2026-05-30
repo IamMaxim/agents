@@ -3,7 +3,7 @@ description: Verify a completion claim with real command output before saying do
 argument-hint: <claim to verify>
 ---
 
-Apply the Verification Before Completion procedure (canonical: skills/verification-before-completion.md).
+Apply the Verification Before Completion procedure (canonical: skills/verification-before-completion/SKILL.md).
 
 Before claiming done/fixed/passing, run and PASTE:
 1. The tests — real command, real output, this session.

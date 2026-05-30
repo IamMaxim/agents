@@ -3,7 +3,7 @@ description: Brainstorm an idea into a small, approved design before any code.
 argument-hint: <idea>
 ---
 
-Apply the Brainstorming procedure (canonical: skills/brainstorming.md). Do NOT write code,
+Apply the Brainstorming procedure (canonical: skills/brainstorming/SKILL.md). Do NOT write code,
 scaffold, or edit files until the user approves a design — even for simple tasks.
 
 1. Restate the goal in one sentence; confirm it.

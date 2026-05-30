@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Example check command for qwen-superpowers' post-edit hook.
 # Copy to .qwen/checks.sh in your project and edit for your stack. Keep it FAST -- this runs
-# after every edit. Put slow/full suites behind /verify instead.
+# after every edit. Put slow/full suites behind /verification-before-completion instead.
 #
 # Exit non-zero on any failure (set -e does this for you). The hook feeds stdout+stderr back
 # to the model when this exits non-zero.

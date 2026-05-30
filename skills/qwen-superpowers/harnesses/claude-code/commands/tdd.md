@@ -3,7 +3,7 @@ description: Implement a change test-first (red-green-refactor), one behavior at
 argument-hint: <change to implement>
 ---
 
-Apply the Test-Driven Development procedure (canonical: skills/test-driven-development.md).
+Apply the Test-Driven Development procedure (canonical: skills/test-driven-development/SKILL.md).
 
 1. Pick the smallest behavior.
 2. Write ONE test. Run it. Confirm it fails for the RIGHT reason (paste output).
