@@ -30,10 +30,10 @@ Three layers, lowest-trust first:
 |-------|---------|--------------|----------------|
 | **Enforcement** | `hooks/` | Blocks destructive shell; runs your checks after every edit and feeds failures back. The model *cannot* talk past a red test. | None |
 | **Always-on discipline** | `AGENTS.md` | The non-negotiables, loaded every turn: small diffs, one change at a time, no preamble, stop-and-report. | Low |
-| **On-demand procedure** | harness commands + `skills/` | TDD, debugging, planning, review — invoked explicitly via slash commands, because Qwen won't self-invoke reliably. | Higher |
+| **On-demand procedure** | `skills/` (native skills where supported) | TDD, debugging, planning, review — invokable as `/<name>` (reliable) and auto-invokable by the model where supported. | Higher |
 
 The design principle in one line: **move non-negotiables into `AGENTS.md`, make explicit
-`/commands` the entry points, and let hooks enforce what skills can only request.**
+`/<skill>` invocations the reliable entry points, and let hooks enforce what skills can only request.**
 
 ---
 
@@ -68,9 +68,9 @@ design choice: [`docs/DESIGN.md`](docs/DESIGN.md).
 The methodology is identical everywhere; only delivery differs. Choose one or more profiles at
 install time:
 
-| Profile | Harnesses | Commands | Hooks | Default dir |
-|---------|-----------|----------|-------|-------------|
-| `qwen-family` | Qwen Code, Gemini CLI, forks | TOML | yes (ms timeouts) | `~/.qwen` (configurable) |
+| Profile | Harnesses | Procedures via | Hooks | Default dir |
+|---------|-----------|----------------|-------|-------------|
+| `qwen-family` | Qwen Code, Gemini CLI, forks | native skills (`/<name>`) | yes (ms timeouts) | `~/.qwen` (configurable) |
 | `claude-code` | Claude Code (e.g. pointed at a local/internal Qwen endpoint) | Markdown | yes (sec timeouts) | `~/.claude` |
 | `generic` | Codex, Cursor, aider, opencode, … | — | — | a dir you choose |
 
@@ -85,9 +85,9 @@ harnesses; only the settings wiring and tool-name matchers differ.
 ```
 qwen-superpowers/
 ├── AGENTS.md               always-on discipline (the cross-harness standard file)
-├── skills/                 the 10 adapted methodology skills (canonical, readable)
+├── skills/                 the 10 adapted methodology skills, native <name>/SKILL.md dirs
 ├── harnesses/
-│   ├── qwen-family/        TOML commands + settings sample (Qwen Code / Gemini CLI / forks)
+│   ├── qwen-family/        settings sample + notes; skills install from ../skills/ (Qwen Code / forks)
 │   ├── claude-code/        Markdown commands + settings sample (Claude Code)
 │   └── generic/            wiring notes for harnesses without commands/hooks
 ├── hooks/                  enforcement scripts (shared) + checks example
@@ -127,29 +127,31 @@ or `$QWEN_SP_CHECK`). See the per-harness READMEs under [`harnesses/`](harnesses
 
 ## Usage
 
-Drive work through the slash commands (available in `qwen-family` and `claude-code`) — don't rely on
-the model to pick the right procedure. On a `generic` harness, ask it to "follow `skills/<name>.md`".
+On `qwen-family` (Qwen Code) the procedures are **native skills**: invoke one explicitly as `/<name>`
+(the reliable path) — the model can also auto-invoke it from its description. On `claude-code` they're
+Markdown slash commands; on a `generic` harness, ask it to "follow `skills/<name>/SKILL.md`". Prefer
+explicit invocation over trusting the model to pick.
 
-| Command | When | Skill |
-|---------|------|-------|
-| `/brainstorm <idea>` | before building anything new | brainstorming |
-| `/write-plan <spec>` | turn a spec into small, checkable steps | writing-plans |
-| `/execute-plan <plan>` | work a plan one step at a time | executing-plans |
-| `/tdd <change>` | implement a feature or fix, test-first | test-driven-development |
-| `/debug <symptom>` | a bug, failure, or surprise | systematic-debugging |
-| `/verify <claim>` | before saying "done"/"fixed" | verification-before-completion |
-| `/review <scope>` | prepare a change for review | requesting-code-review |
-
-The non-command skills (`using-git-worktrees`, `finishing-a-development-branch`,
-`receiving-code-review`) live in `skills/` and are referenced by `AGENTS.md` at the right moments.
+| Skill (`/<name>`) | When |
+|-------------------|------|
+| `/brainstorming` | before building anything new |
+| `/writing-plans` | turn a spec into small, checkable steps |
+| `/executing-plans` | work a plan one step at a time |
+| `/test-driven-development` | implement a feature or fix, test-first |
+| `/systematic-debugging` | a bug, failure, or surprise |
+| `/verification-before-completion` | before saying "done"/"fixed" |
+| `/requesting-code-review` | prepare a change for review |
+| `/receiving-code-review` | acting on review feedback |
+| `/using-git-worktrees` | isolating risky work |
+| `/finishing-a-development-branch` | wrapping up a finished branch |
 
 ### The loop, in practice
 
-1. `/brainstorm` → `/write-plan` for anything non-trivial.
-2. `/tdd` or `/execute-plan` for the work — small steps, one at a time.
+1. `/brainstorming` → `/writing-plans` for anything non-trivial.
+2. `/test-driven-development` or `/executing-plans` for the work — small steps, one at a time.
 3. The **post-edit hook** runs your checks after each edit and pastes failures back into the
    conversation, so the model fixes them instead of moving on.
-4. `/verify` before any completion claim — it requires pasting real command output.
+4. `/verification-before-completion` before any completion claim — it requires pasting real command output.
 5. The **pre-bash hook** silently blocks destructive commands the whole time.
 
 ---
@@ -164,7 +166,7 @@ Two shared hook scripts, wired into your harness's `settings.json` (samples in
   similar; asks before recoverable-but-risky ones. Everything else passes silently.
 - **`run-checks-after-edit.sh`** (`PostToolUse` on edits): runs your *fast* check command and, on
   failure, injects the output back so the model can't proceed as if it passed. Heavy suites belong
-  in `/verify`, not here.
+  in `/verification-before-completion`, not here.
 
 Define your check command once, per project:
 
