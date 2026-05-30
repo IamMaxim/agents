@@ -6,24 +6,24 @@ chain-of-thought.
 
 ## How these are used
 - The non-negotiable parts live in [`../AGENTS.md`](../AGENTS.md) (loaded every turn).
-- The full procedures here are the canonical, editable source.
-- Most are invoked through slash commands under [`../harnesses/`](../harnesses/) (TOML for the
-  qwen-family, Markdown for Claude Code), which carry a condensed copy of the steps inline so they
-  work across harnesses and versions.
+- Each procedure is a native **`<name>/SKILL.md`** — the canonical, editable source.
+- On Qwen Code (`qwen-family`) they install to `~/.qwen/skills/` and are invokable as `/<name>` or
+  via `/skills`, and the model can auto-invoke them. On Claude Code they're delivered as Markdown
+  slash commands under [`../harnesses/claude-code/`](../harnesses/claude-code/).
 
 ## Index
-| Skill | Command | Use when |
-|-------|---------|----------|
-| [brainstorming](brainstorming.md) | `/brainstorm` | before building something new |
-| [writing-plans](writing-plans.md) | `/write-plan` | turning a spec into checkable steps |
-| [executing-plans](executing-plans.md) | `/execute-plan` | working a plan step by step |
-| [test-driven-development](test-driven-development.md) | `/tdd` | implementing any feature or fix |
-| [systematic-debugging](systematic-debugging.md) | `/debug` | any bug or unexpected behavior |
-| [verification-before-completion](verification-before-completion.md) | `/verify` | before claiming done |
-| [requesting-code-review](requesting-code-review.md) | `/review` | preparing a change for review |
-| [receiving-code-review](receiving-code-review.md) | — | acting on review feedback |
-| [using-git-worktrees](using-git-worktrees.md) | — | isolating risky work |
-| [finishing-a-development-branch](finishing-a-development-branch.md) | — | wrapping up a finished branch |
+| Skill | Invoke | Use when |
+|-------|--------|----------|
+| [brainstorming](brainstorming/SKILL.md) | `/brainstorming` | before building something new |
+| [writing-plans](writing-plans/SKILL.md) | `/writing-plans` | turning a spec into checkable steps |
+| [executing-plans](executing-plans/SKILL.md) | `/executing-plans` | working a plan step by step |
+| [test-driven-development](test-driven-development/SKILL.md) | `/test-driven-development` | implementing any feature or fix |
+| [systematic-debugging](systematic-debugging/SKILL.md) | `/systematic-debugging` | any bug or unexpected behavior |
+| [verification-before-completion](verification-before-completion/SKILL.md) | `/verification-before-completion` | before claiming done |
+| [requesting-code-review](requesting-code-review/SKILL.md) | `/requesting-code-review` | preparing a change for review |
+| [receiving-code-review](receiving-code-review/SKILL.md) | `/receiving-code-review` | acting on review feedback |
+| [using-git-worktrees](using-git-worktrees/SKILL.md) | `/using-git-worktrees` | isolating risky work |
+| [finishing-a-development-branch](finishing-a-development-branch/SKILL.md) | `/finishing-a-development-branch` | wrapping up a finished branch |
 
 ## What changed vs. the Claude originals
 - **Smaller steps**, with explicit "stop and report" points — a weaker model shouldn't barrel ahead.

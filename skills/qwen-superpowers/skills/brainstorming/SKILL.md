@@ -16,7 +16,7 @@ or edit files until the user approves a design — this applies even to "simple"
 4. Propose 2–3 approaches with one-line trade-offs. Recommend one and say why.
 5. Present a short design: what changes, which files, how it's tested. Scale length to
    complexity — a few sentences is often enough.
-6. Get explicit approval, then hand off: `/write-plan` for non-trivial work, `/tdd` for small.
+6. Get explicit approval, then hand off: `/writing-plans` for non-trivial work, `/test-driven-development` for small.
 
 ## Rules
 - One question per message. Don't dump a questionnaire.

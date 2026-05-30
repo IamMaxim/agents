@@ -13,7 +13,7 @@ Goal: find the actual cause before changing code. No shotgun fixes.
 3. State one hypothesis: "I think X, because Y."
 4. Make the smallest change that tests that hypothesis. Run it. Observe.
 5. Wrong → revert that change, then form the next hypothesis. Don't stack guesses.
-6. Right → write or keep a test that locks in the fix (see `/tdd`).
+6. Right → write or keep a test that locks in the fix (see `/test-driven-development`).
 
 ## Rules
 - Reproduce before you fix. A bug you can't reproduce, you can't verify fixed.
