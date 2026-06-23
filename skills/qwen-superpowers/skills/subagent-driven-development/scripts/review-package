@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# Generate a review package for one task: a stat summary and the full diff with
+# extended context, written to a file the reviewer reads in one call.
+#
+# BEFORE and AFTER are tree objects produced by this skill's `snapshot` script —
+# taken before dispatching the implementer and after it returns. No commits are
+# involved, so your git history and branches stay under your manual control.
+#
+# Usage: review-package BEFORE AFTER [OUTFILE]
+# Default OUTFILE: <repo-root>/.superpowers/sdd/review-<before7>..<after7>.diff
+# (named per range, so a re-review after fixes gets a distinct fresh file).
+set -euo pipefail
+
+if [ $# -lt 2 ] || [ $# -gt 3 ]; then
+  echo "usage: review-package BEFORE AFTER [OUTFILE]" >&2
+  exit 2
+fi
+
+before=$1
+after=$2
+
+git rev-parse --verify --quiet "${before}^{tree}" >/dev/null || { echo "bad BEFORE tree: $before" >&2; exit 2; }
+git rev-parse --verify --quiet "${after}^{tree}" >/dev/null || { echo "bad AFTER tree: $after" >&2; exit 2; }
+
+if [ $# -eq 3 ]; then
+  out=$3
+else
+  dir=$("$(cd "$(dirname "$0")" && pwd)/sdd-workspace")
+  out="$dir/review-$(git rev-parse --short "$before")..$(git rev-parse --short "$after").diff"
+fi
+
+{
+  echo "# Review package: ${before}..${after}"
+  echo
+  echo "## Files changed"
+  git diff --stat "$before" "$after"
+  echo
+  echo "## Diff"
+  git diff -U10 "$before" "$after"
+} > "$out"
+
+echo "wrote ${out}: $(wc -c < "$out" | tr -d ' ') bytes"
