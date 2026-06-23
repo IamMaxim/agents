@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Capture the current working tree (tracked + untracked, honoring .gitignore)
+# as a dangling git tree object, and print its SHA. The real index, working
+# tree, HEAD, branches, and refs are NEVER touched — all index writes are
+# redirected to a throwaway file via GIT_INDEX_FILE.
+#
+# subagent-driven-development brackets each task with two snapshots: one before
+# dispatching the implementer and one after it returns. `review-package BEFORE
+# AFTER` then diffs the two trees to produce that task's review diff. No commits
+# are made anywhere — your git history and branches stay under your manual
+# control. The tree object is invisible to `git log` / `git status` / branches
+# and is eventually garbage-collected.
+#
+# Usage: snapshot
+set -euo pipefail
+
+root=$(git rev-parse --show-toplevel)
+
+tmp_index=$(mktemp "${TMPDIR:-/tmp}/sdd-index.XXXXXX")
+trap 'rm -f "$tmp_index"' EXIT
+export GIT_INDEX_FILE="$tmp_index"
+
+# Seed the throwaway index from HEAD (skip in an unborn-HEAD/empty repo), then
+# stage the entire working tree into it. add -A honors .gitignore, so the
+# .superpowers/sdd scratch dir (self-ignored) is excluded.
+git -C "$root" read-tree HEAD 2>/dev/null || true
+git -C "$root" add -A
+git -C "$root" write-tree

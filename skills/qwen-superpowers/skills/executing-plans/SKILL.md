@@ -1,21 +1,69 @@
 ---
 name: executing-plans
-description: Use when you have a written plan to execute. Works one step at a time with a check after each, and stops on failure.
+description: Use when you have a written implementation plan to execute in a separate session with review checkpoints
 ---
 
 # Executing Plans
 
-Goal: work a plan to completion without drifting, skipping, or barreling past failures.
+## Overview
 
-## Steps
-1. Read the plan. Restate the next single step. Do only that step.
-2. Make the change, limited to the one file/concern the step names.
-3. Run that step's check. Paste the output.
-4. Green → mark the step done and move to the next. Red → fix it now; do not start the next step.
-5. Before each step, re-read it fresh. Don't batch steps "to save time".
+Load plan, review critically, execute all tasks, report when complete.
 
-## Rules
-- One step at a time. Never edit ahead of the current step.
-- If a step turns out bigger than the plan implied, stop and update the plan first.
-- Stuck on a step after 2–3 tries → stop and report. Don't thrash.
-- The post-edit hook runs checks automatically; treat any failure it reports as a hard stop.
+**Announce at start:** "I'm using the executing-plans skill to implement this plan."
+
+**Note:** Tell your human partner that Superpowers works much better with access to subagents. The quality of its work will be significantly higher if run on a platform with subagent support (Claude Code, Codex CLI, Codex App, Copilot CLI, and Gemini CLI all qualify; see the per-platform tool refs in `../using-superpowers/references/`). If subagents are available, use superpowers:subagent-driven-development instead of this skill.
+
+## The Process
+
+### Step 1: Load and Review Plan
+1. Read plan file
+2. Review critically - identify any questions or concerns about the plan
+3. If concerns: Raise them with your human partner before starting
+4. If no concerns: Create todos for the plan items and proceed
+
+### Step 2: Execute Tasks
+
+For each task:
+1. Mark as in_progress
+2. Follow each step exactly (plan has bite-sized steps)
+3. Run verifications as specified
+4. Mark as completed
+
+### Step 3: Report Completion
+
+After all tasks complete and verified:
+- Run the full test suite one last time and confirm it passes (paste the output).
+- Report to your human partner that the work is done, with a short summary of what changed.
+- **Stop there.** Do not commit, branch, merge, or push — your human partner manages git and
+  integration manually after reviewing the diff.
+
+## When to Stop and Ask for Help
+
+**STOP executing immediately when:**
+- Hit a blocker (missing dependency, test fails, instruction unclear)
+- Plan has critical gaps preventing starting
+- You don't understand an instruction
+- Verification fails repeatedly
+
+**Ask for clarification rather than guessing.**
+
+## When to Revisit Earlier Steps
+
+**Return to Review (Step 1) when:**
+- Partner updates the plan based on your feedback
+- Fundamental approach needs rethinking
+
+**Don't force through blockers** - stop and ask.
+
+## Remember
+- Review plan critically first
+- Follow plan steps exactly
+- Don't skip verifications
+- Reference skills when plan says to
+- Stop when blocked, don't guess
+- Never start implementation on main/master branch without explicit user consent
+
+## Integration
+
+**Required workflow skills:**
+- **superpowers:writing-plans** - Creates the plan this skill executes
